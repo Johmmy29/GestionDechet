@@ -1,88 +1,77 @@
+package gestionDechet;
 
-import java.util.*;
-
-/**
- * 
- */
 public class Poubelle {
 
-    /**
-     * Default constructor
-     */
-    public Poubelle() {
+    private int idPoubelle; 
+    private final float capaciteMax = 1000.0f; 
+    private float capaciteActuelle; 
+    private int idEmplacement; 
+    private Couleur couleur; 
+    
+    // Constructeur pour initialiser une poubelle avec un ID, un emplacement et une couleur
+    public Poubelle(int idPoubelle, int idEmplacement, Couleur couleur) {
+        this.idPoubelle = idPoubelle;
+        this.idEmplacement = idEmplacement;
+        this.couleur = couleur;
+        this.capaciteActuelle = 0.0f; // La poubelle est vide au départ
     }
 
-    /**
-     * 
-     */
-    private String idPoubelle;
-
-    /**
-     * 
-     */
-    private float capaciteMax;
-
-    /**
-     * 
-     */
-    private float capaciteActuelle;
-
-    /**
-     * 
-     */
-    private String emplacement;
-
-    /**
-     * 
-     */
-    private Couleur couleur;
-
-    /**
-     * 
-     */
-    private boolean estPleine;
-
-    /**
-     * @param utilisateur  
-     * @return
-     */
-    public boolean identifierUtilisateur(Compte utilisateur ) {
-        // TODO implement here
-        return false;
+    // Getters et Setters
+    public int getIdPoubelle() {
+        return idPoubelle;
     }
 
-    /**
-     * @param typeDechet  
-     * @return
-     */
-    public float calculerQuantiteDechets(TypeDechet typeDechet ) {
-        // TODO implement here
-        return 0.0f;
+    public void vider() {
+        this.capaciteActuelle = 0; // Vide la poubelle
     }
 
-    /**
-     * @param dechet  
-     * @return
-     */
-    public boolean verifierConformiteDechet(Dechet dechet ) {
-        // TODO implement here
-        return false;
+    public int getIdEmplacement() {
+        return idEmplacement;
+    }
+    
+    public void setIdEmplacement(int idEmplacement) {
+        this.idEmplacement = idEmplacement;
+    }
+    
+    public boolean pleine() {
+        return capaciteActuelle >= capaciteMax; // Vérifie si la poubelle est pleine
     }
 
-    /**
-     * @return
-     */
-    public void envoyerNotification() {
-        // TODO implement here
-        return null;
+    public Couleur getCouleur() {
+        return couleur;
+    }
+    
+    public float getCapaciteActuelle() {
+        return capaciteActuelle;
     }
 
-    /**
-     * @return
-     */
-    public boolean estPleine() {
-        // TODO implement here
-        return false;
+    public void setCapaciteActuelle(float capaciteActuelle) {
+        this.capaciteActuelle = capaciteActuelle;
     }
 
+    public float getCapaciteMax() {
+        return capaciteMax;
+    }
+
+    // Affiche les informations de la poubelle
+    public void afficherInfos() {
+        System.out.println("ID Poubelle : " + idPoubelle +
+                           " | Emplacement : " + idEmplacement +
+                           " | Couleur : " + couleur +
+                           " | Capacité : " + capaciteActuelle + "/" + capaciteMax);
+    }
+    
+    // Affiche l'espace disponible dans la poubelle
+    public void quantiteDechets() {
+        System.out.println("La poubelle contient " + capaciteActuelle + " kg sur " + capaciteMax + " kg. Il reste donc " + (capaciteMax - capaciteActuelle) + " kg de libre.");
+    }
+    
+    // Affiche si la poubelle est pleine ou non
+    public void estPleine() {
+        if (this.capaciteMax == this.capaciteActuelle) {
+            System.out.println("La poubelle est pleine");
+        } else {
+            System.out.println("La poubelle n'est pas encore pleine");
+        }
+    }
 }
