@@ -1,70 +1,60 @@
+package gestionDechet;
 
-import java.util.*;
+import java.time.LocalDateTime;
 
-/**
- * 
- */
 public class Depot {
 
-    /**
-     * Default constructor
-     */
-    public Depot() {
+    private int compte; 
+    private TypeDechet type; 
+    private float quantite; 
+    private LocalDateTime dateDepot = null; 
+    private int pointsAttribues; 
+
+    // Constructeur pour initialiser un dépôt avec une quantité de déchets
+    public Depot(float quantite) {
+        this.quantite = quantite;
+        this.pointsAttribues = 0;
     }
 
-    /**
-     * 
-     */
-    private TypeDechet type;
+    // Getters et Setters
 
-    /**
-     * 
-     */
-    private float quantite;
-
-    /**
-     * 
-     */
-    private Date dateDepot;
-
-    /**
-     * 
-     */
-    private int PointsAttribues;
-
-    /**
-     * 
-     */
-    public void getDateDepot() {
-        // TODO implement here
+    public int getCompte() {
+        return compte;
     }
 
-    /**
-     * 
-     */
-    public void getQuantiteDechet() {
-        // TODO implement here
+    public void setCompte(int compte) {
+        this.compte = compte;
     }
 
-    /**
-     * 
-     */
-    public void getTypeDechet() {
-        // TODO implement here
+    public TypeDechet getType() {
+        return type;
     }
 
-    /**
-     * 
-     */
-    public void getPointsAttribues() {
-        // TODO implement here
+    public void setType(TypeDechet type) {
+        this.type = type;
     }
 
-    /**
-     * 
-     */
-    public void enregistrerDepot() {
-        // TODO implement here
+    public float getQuantite() {
+        return quantite;
     }
 
+    public void setQuantite(float quantite) {
+        this.quantite = quantite;
+    }
+
+    public void setDateDepot(LocalDateTime dateDepot) {
+        this.dateDepot = dateDepot;
+    }
+
+    public void setPointsAttribues(int pointsAttribues) {
+        this.pointsAttribues = pointsAttribues;
+    }
+
+    public LocalDateTime getDateDepot() {
+        return dateDepot;
+    }
+
+    public int getPointsAttribues() {
+        return pointsAttribues;
+    }
 }
