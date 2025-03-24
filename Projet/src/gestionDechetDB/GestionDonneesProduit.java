@@ -1,14 +1,13 @@
 package gestionDechetDB;
 
 import gestionDechet.Produit;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GestionDonneesProduit {
 
-    public Produit create(Produit produit, int idCategorie) throws SQLException {
+    public Produit create(Produit produit) throws SQLException {
         String sql = "INSERT INTO produit (id_produit, nom, prix, id_categorie) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
@@ -17,7 +16,7 @@ public class GestionDonneesProduit {
             statement.setInt(1, produit.getIdProduit());
             statement.setString(2, produit.getNom());
             statement.setFloat(3, produit.getPrix());
-            statement.setInt(4, idCategorie);
+            statement.setInt(4, produit.getIdCategorie());
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
@@ -39,8 +38,9 @@ public class GestionDonneesProduit {
                 if (rs.next()) {
                     String nom = rs.getString("nom");
                     float prix = rs.getFloat("prix");
+                    int idCategorie = rs.getInt("id_categorie");
 
-                    return new Produit(id, nom, prix);
+                    return new Produit(id, nom, prix, idCategorie);
                 } else {
                     return null;
                 }
@@ -60,8 +60,9 @@ public class GestionDonneesProduit {
                 int id = rs.getInt("id_produit");
                 String nom = rs.getString("nom");
                 float prix = rs.getFloat("prix");
+                int idCategorie = rs.getInt("id_categorie");
 
-                produits.add(new Produit(id, nom, prix));
+                produits.add(new Produit(id, nom, prix, idCategorie));
             }
         }
 
@@ -69,14 +70,15 @@ public class GestionDonneesProduit {
     }
 
     public Produit update(Produit produit) throws SQLException {
-        String sql = "UPDATE produit SET nom = ?, prix = ? WHERE id_produit = ?";
+        String sql = "UPDATE produit SET nom = ?, prix = ?, id_categorie = ? WHERE id_produit = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, produit.getNom());
             statement.setFloat(2, produit.getPrix());
-            statement.setInt(3, produit.getIdProduit());
+            statement.setInt(3, produit.getIdCategorie());
+            statement.setInt(4, produit.getIdProduit());
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
