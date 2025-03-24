@@ -8,7 +8,7 @@ import java.util.List;
 public class GestionDonneesCategorieProduit {
 
     public CategorieProduit create(CategorieProduit categorie) throws SQLException {
-        String sql = "INSERT INTO categorie_produit (id_categorie, nom, points_necessaires, taux_reduction) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO categorie_produit (id_categorie, nom, points_necessaires, taux_reduction, id_commerce) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -17,6 +17,7 @@ public class GestionDonneesCategorieProduit {
             statement.setString(2, categorie.getNom());
             statement.setInt(3, categorie.getPointsNecessaires());
             statement.setFloat(4, categorie.getTauxReduction());
+            statement.setInt(5, categorie.getIdCommerce());
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
@@ -39,8 +40,9 @@ public class GestionDonneesCategorieProduit {
                     String nom = rs.getString("nom");
                     int pointsNecessaires = rs.getInt("points_necessaires");
                     float tauxReduction = rs.getFloat("taux_reduction");
+                    int idCommerce = rs.getInt("id_commerce");
 
-                    return new CategorieProduit(id, nom, pointsNecessaires, tauxReduction);
+                    return new CategorieProduit(id, nom, pointsNecessaires, tauxReduction, idCommerce);
                 } else {
                     return null;
                 }
@@ -61,8 +63,9 @@ public class GestionDonneesCategorieProduit {
                 String nom = rs.getString("nom");
                 int pointsNecessaires = rs.getInt("points_necessaires");
                 float tauxReduction = rs.getFloat("taux_reduction");
+                int idCommerce = rs.getInt("id_commerce");
 
-                categories.add(new CategorieProduit(id, nom, pointsNecessaires, tauxReduction));
+                categories.add(new CategorieProduit(id, nom, pointsNecessaires, tauxReduction, idCommerce));
             }
         }
 
@@ -70,7 +73,7 @@ public class GestionDonneesCategorieProduit {
     }
 
     public CategorieProduit update(CategorieProduit categorie) throws SQLException {
-        String sql = "UPDATE categorie_produit SET nom = ?, points_necessaires = ?, taux_reduction = ? WHERE id_categorie = ?";
+        String sql = "UPDATE categorie_produit SET nom = ?, points_necessaires = ?, taux_reduction = ?, id_commerce = ? WHERE id_categorie = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -78,7 +81,8 @@ public class GestionDonneesCategorieProduit {
             statement.setString(1, categorie.getNom());
             statement.setInt(2, categorie.getPointsNecessaires());
             statement.setFloat(3, categorie.getTauxReduction());
-            statement.setInt(4, categorie.getIdCategorie());
+            statement.setInt(4, categorie.getIdCommerce());
+            statement.setInt(5, categorie.getIdCategorie());
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
