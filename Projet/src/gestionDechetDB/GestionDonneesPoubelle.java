@@ -1,11 +1,8 @@
 package gestionDechetDB;
 
-import gestionDechet.Couleur;
 import gestionDechet.Poubelle;
-
+import gestionDechet.Couleur;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GestionDonneesPoubelle {
 
@@ -42,58 +39,12 @@ public class GestionDonneesPoubelle {
                     int idEmplacement = rs.getInt("id_emplacement");
                     Couleur couleur = Couleur.valueOf(rs.getString("couleur"));
                     float capaciteActuelle = rs.getFloat("capacite_actuelle");
+                    float capaciteMax = rs.getFloat("capacite_max");
 
-                    Poubelle poubelle = new Poubelle(id, idEmplacement, couleur);
-                    poubelle.setCapaciteActuelle(capaciteActuelle);
-
-                    return poubelle;
+                    return new Poubelle(id, idEmplacement, couleur, capaciteActuelle, capaciteMax);
                 } else {
                     return null;
                 }
-            }
-        }
-    }
-
-    public List<Poubelle> findAll() throws SQLException {
-        String sql = "SELECT * FROM poubelle";
-        List<Poubelle> poubelles = new ArrayList<>();
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet rs = statement.executeQuery(sql)) {
-
-            while (rs.next()) {
-                int id = rs.getInt("id_poubelle");
-                int idEmplacement = rs.getInt("id_emplacement");
-                Couleur couleur = Couleur.valueOf(rs.getString("couleur"));
-                float capaciteActuelle = rs.getFloat("capacite_actuelle");
-
-                Poubelle poubelle = new Poubelle(id, idEmplacement, couleur);
-                poubelle.setCapaciteActuelle(capaciteActuelle);
-
-                poubelles.add(poubelle);
-            }
-        }
-
-        return poubelles;
-    }
-
-    public Poubelle update(Poubelle poubelle) throws SQLException {
-        String sql = "UPDATE poubelle SET id_emplacement = ?, couleur = ?, capacite_actuelle = ? WHERE id_poubelle = ?";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, poubelle.getIdEmplacement());
-            statement.setString(2, poubelle.getCouleur().toString());
-            statement.setFloat(3, poubelle.getCapaciteActuelle());
-            statement.setInt(4, poubelle.getIdPoubelle());
-
-            int rowsUpdated = statement.executeUpdate();
-            if (rowsUpdated > 0) {
-                return poubelle;
-            } else {
-                throw new SQLException("Échec de la mise à jour de la poubelle.");
             }
         }
     }
@@ -109,4 +60,3 @@ public class GestionDonneesPoubelle {
         }
     }
 }
-
